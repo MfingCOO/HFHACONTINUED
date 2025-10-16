@@ -1,0 +1,36 @@
+# Settings to manage and configure a Firebase App Hosting backend.
+# https://firebase.google.com/docs/app-hosting/configure
+
+runConfig:
+  # Increase this value if you'd like to automatically spin up
+  # more instances in response to increased traffic.
+  maxInstances: 1
+# Allow public access to webhook endpoints.
+ingressControls:
+  - rule:
+      pattern: /api/zoom-webhook
+      allow: public
+  - rule:
+      pattern: /api/stripe-webhook
+      allow: public
+
+# This schedule now processes all scheduled events, including indulgence plans and pop-ups.
+schedule:
+  - job:
+      name: process-scheduled-events
+      schedule: "every 5 minutes"
+      httpTarget:
+        uri: /api/process
+        method: POST
+        body:
+          json:
+            flowId: processScheduledEventsFlow
+  - job:
+      name: automated-client-nudge
+      schedule: "every 1 hours"
+      httpTarget:
+        uri: /api/process
+        method: POST
+        body:
+          json:
+            flowId: automatedClientNudgeFlow

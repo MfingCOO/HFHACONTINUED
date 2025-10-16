@@ -1,0 +1,23 @@
+
+[
+  {
+    "origin": ["*"],
+    "method": ["GET", "HEAD", "PUT", "POST", "DELETE"],
+    "responseHeader": [
+      "Content-Type",
+      "Access-Control-Allow-Origin",
+      "x-goog-resumable",
+      "x-zm-request-timestamp",
+      "x-zm-signature"
+    ],
+    "maxAgeSeconds": 3600
+  },
+  {
+    "origin": ["https://zoom.us"],
+    "method": ["POST"],
+    "responseHeader": [
+      "Content-Type"
+    ],
+    "maxAgeSeconds": 3600
+  }
+]

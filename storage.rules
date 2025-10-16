@@ -1,0 +1,28 @@
+
+rules_version = '2';
+
+service firebase.storage {
+  match /b/{bucket}/o {
+
+    // Allow public read access to profile pictures and challenge thumbnails
+    match /profile-pictures/{userId}/{allPaths=**} {
+      allow read;
+      allow write: if request.auth != null && request.auth.uid == userId;
+    }
+
+    match /challenge-thumbnails/{allPaths=**} {
+      allow read;
+      // Writes should only be done from the server (admin)
+      allow write: if false;
+    }
+    
+    match /asset-library/{allPaths=**} {
+        allow read;
+        allow write: if false;
+    }
+
+    match /users/{userId}/{allPaths=**} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+  }
+}
